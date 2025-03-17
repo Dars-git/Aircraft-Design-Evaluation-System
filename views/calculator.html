@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIAA Project</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icons/favicon.ico') }}"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+    <style>
+        .btn-primary {
+            background-color: #0074cc; /* Darker blue */
+            color: #fff;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056a6; /* Slightly darker blue on hover */
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar bg-dark navbar-expand-lg" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">AIAA Plane Simulator</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarScroll">
+            <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="{{ url_for('Sensitivity_Study') }}">Sensitivity Study</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link  active" href="{{ url_for('calculator') }}">Calculator</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('documentation') }}">Documentation</a>
+                </li>
+
+            </ul>
+            {% if session['name'] %}
+            <ul class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+             <li  class="nav-item">
+               <p class="nav-link">Welcome, {{ session['name'] }} </p>
+
+            <li>
+             <li  class="nav-item">
+               <a class="nav-link" href="{{ url_for('logout') }}">Log Out</a>
+             </li>
+            </ul>
+            {% else %}
+            <ul class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+            <li  class="nav-item">
+
+                    <a class="nav-link" href="{{ url_for('login') }}">Log In</a>
+                </li>
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+		<div class="container-body" style="background-image: url('{{ url_for('static', filename='images/bg-01.jpg') }}');">
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <div class="text-center">
+                        <h5 class="card-title">Flying Wing Design Calculator</h5>
+
+                    <p class="card-text">Determines the size of the wing</p>
+
+                        <a href="{{ url_for('flying_wing_design_calculator') }}" class="btn btn-primary">Calculate</a>
+                    </div>
+            </div>
+        </div>
+<div class="card bg-transparent border-0" style="width: 4rem; ">
+</div>
+
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <div class="text-center">
+                        <h5 class="card-title">Stabilizer Shape Design Calculator</h5>
+
+                    <p class="card-text">Generates diagrams for the stabilizer</p>
+
+                        <a href="{{ url_for('Stabilizer_shape_design_calculator') }}" class="btn btn-primary">Calculate</a>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+            <br>
+        <br>
+    <div class="row justify-content-center">
+
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <div class="text-center">
+                        <h5 class="card-title">Standard Fuselage Design Calculator</h5>
+
+                    <p class="card-text">Generates diagrams for the fuselage</p>
+
+                        <a href="{{ url_for('standard_fuselage_design_calculator') }}" class="btn btn-primary">Calculate</a>
+                    </div>
+                </div>
+            </div>
+        <div class="card bg-transparent border-0" style="width: 4rem; ">
+</div>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <div class="text-center">
+                        <h5 class="card-title">Standard Wing Design Calculator</h5>
+
+                    <p class="card-text">Generates diagrams for the wings</p>
+
+                        <a href="{{ url_for('standard_wing_design_calculator') }}" class="btn btn-primary">Calculate</a>
+                    </div>
+                </div>
+        </div>
+        </div>
+
+</div>
+        </div>
+
+</body>
+</html>

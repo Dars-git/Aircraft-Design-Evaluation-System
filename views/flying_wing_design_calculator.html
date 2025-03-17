@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIAA Project</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icons/favicon.ico') }}"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+    <style>
+        /* Add your custom CSS here */
+
+        .form-label, .form-range {
+            margin-top: 10px;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+        }
+        h1, h3 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar bg-dark navbar-expand-lg" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">AIAA Plane Simulator</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarScroll">
+            <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="{{ url_for('Sensitivity_Study') }}">Sensitivity Study</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ url_for('calculator') }}">Calculator</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('documentation') }}">Documentation</a>
+                </li>
+
+            </ul>
+            {% if session['name'] %}
+            <ul class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+             <li  class="nav-item">
+               <p class="nav-link">Welcome, {{ session['name'] }} </p>
+
+            <li>
+             <li  class="nav-item">
+               <a class="nav-link" href="{{ url_for('logout') }}">Log Out</a>
+             </li>
+            </ul>
+            {% else %}
+            <ul class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+            <li  class="nav-item">
+
+                    <a class="nav-link" href="{{ url_for('login') }}">Log In</a>
+                </li>
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+		<div class="container-body" style="background-image: url('{{ url_for('static', filename='images/bg-01.jpg') }}');">
+
+<br>
+<br>
+<div class="container">
+    <form action="{{ url_for('fwdc_handlers.fwdc_configuration') }}" method="post">
+       <div class="row">
+           <div class="col">
+               <h4 class="text-center">Simple Flying Wing Design Calculator</h4>
+           </div>
+       </div>
+        <div class="row">
+           <div class="col">
+               <label for="wingspan" class="form-label">Wingspan</label>
+               <input type="number" step="0.01" class="form-control" name="wingspan" id="wingspan" {% if submit or save %} value="{{ data[0] }}" {% else %} value="28" {% endif %}  >
+           </div>
+           <div class="col">
+               <label for="root_chord" class="form-label">Root Chord</label>
+               <input type="number"  step="0.01" class="form-control" name="root_chord" id="root_chord" {% if submit or save %} value="{{ data[1] }}" {% else %} value="18"{% endif %}>
+           </div>
+       </div>
+
+       <div class="row">
+           <div class="col">
+               <label for="tip_chord" class="form-label">Tip Chord</label>
+               <input type="number" step="0.01" class="form-control" name="tip_chord" id="tip_chord" {% if submit or save %} value="{{ data[2] }}" {% else %} value="6"{% endif %}>
+           </div>
+
+           <div class="col">
+               <label for="chassis_width" class="form-label">Chassis Width</label>
+               <input type="number" step="0.01" class="form-control" name="chassis_width" id="chassis_width" {% if submit or save %} value="{{ data[3] }}" {% else %} value="6"{% endif %}>
+           </div>
+
+
+       </div>
+
+         <div class="row">
+             <div class="col">
+               <label for="sweep_angle" class="form-label">Sweep Angle</label>
+               <input type="number" step="0.01" class="form-control" name="sweep_angle" id="sweep_angle" {% if submit or save %} value="{{ data[4] }}" {% else %} value="30"{% endif %}>
+           </div>
+
+           <div class="col">
+               <label for="output_units" class="form-label">Output Units</label>
+               <select class="form-select" name="output_units" id="output_units">
+                   <option value="in" {% if submit or save %} {% if data[5] =="in" %} selected {% endif %}{% endif %}>in</option>
+                   <option value="mm"{% if submit or save %} {% if data[5] =="mm" %} selected {% endif %}{% endif %}>mm</option>
+               </select>
+           </div>
+       </div>
+        <br>
+        <br>
+
+        {% if session['name'] %}
+            <div class="row">
+            <div class="d-grid gap-2 col-2 mx-auto">
+                <button class="btn btn-primary" name="submit" value="load" type="submit">Load Configuration</button>
+            </div>
+             <div class="d-grid gap-2 col-2 mx-auto">
+                <button class="btn btn-primary" name="submit" value="submit" type="submit">Submit Configuration</button>
+            </div>
+             <div class="d-grid gap-2 col-2 mx-auto">
+                <button class="btn btn-primary" name="submit" value="save" type="submit">Save Configuration</button>
+            </div>
+         </div>
+        {% else %}
+            <div class="d-grid gap-2 col-2 mx-auto">
+            <button class="btn btn-primary" name="submit" value="submit" type="submit">Submit Configuration</button>
+            </div>
+        {% endif %}
+
+
+    </form>
+</div>
+
+{% if save %}
+<br>
+<div class="d-grid gap-2 col-2 mx-auto">
+    <div class="alert alert-success">
+        <p class="text-center">The current data is saved.</p>
+    </div>
+</div>
+{% endif %}
+
+    <!--graph-->
+    {% if submit %}
+    <div id="statisticsSection" >
+      <h3 >Plane Statistics</h3>
+      <h4>wing_length: {{ data[6] }}  {{data[5]}}</h4>
+    </div>
+
+    {% endif %}
+
+
+</div>
+</body>
+</html>
