@@ -1,7 +1,43 @@
-# aiaa-project
-Our SENG645 semester project in cooperation with the AIAA club.
-This prototype includes a series of sliders. These sliders are separated into two categories, plane dimensions, and scoring weights. The plane dimensions represent the user's plane design specifications and include a series of inputs including Wing Span, Tail Size, Fuselage Length, etc. The scoring weights represent the importance of various tests performed on the user's dimensions like distance flown and speed. The weight of a test is a value between 0-100 and the sum of all weights cannot exceed 100. This weight is applied to a given test after a preliminary score is calculated and is summed with all other weighted test scores to produce the total score. Similar to the weights, this score is a value between 0-100 and may not go beyond this value range. 
+# ✈️ Aircraft Design Evaluation System
 
-The prototype includes three pages, Plane Configuration, Test Mission, and Documentation. Plane configuration is where the user enters the inputs mentioned previously and the general scoring graph is displayed once confirmed. The Test Mission pane shows the user how their plane specifications performed on each individual test. The specific test they wish to view the result of can be selected using a dropdown menu. Lastly, Documentation focuses on explaining the general functionality of the software and the logic applied.
+A simple, interactive web application built with **Flask** to evaluate aircraft designs based on aerodynamic and geometric parameters. Users can enter aircraft design values like wingspan, tip chord, root chord, chassis width, and sweep angle to get performance evaluations using Python-based calculations (converted from MATLAB).
 
-These specifications are based off the American Institute of Aeronautics and Astronautics DBF or Design, Build, Fly, competition.
+## 🚀 Features
+
+- Input aircraft geometry parameters directly through the web interface
+- Calculate performance indicators such as aspect ratio, taper ratio, and wing area
+- Visualize design metrics using dynamic plots
+- Converted from a legacy MATLAB system to a modern Python + Flask app
+- Lightweight and easy to use for academic or prototyping purposes
+
+## 🛠 Tech Stack
+
+- **Backend:** Python, Flask
+- **Frontend:** HTML, CSS, JavaScript
+- **Visualization:** Matplotlib
+- **Libraries:** NumPy, Pandas
+
+## 🧠 Core Functionalities
+
+- **Parameter Input:** 
+  - Wingspan  
+  - Tip Chord  
+  - Root Chord  
+  - Chassis Width  
+  - Sweep Angle  
+
+- **Output Calculations:**
+  - Wing Area  
+  - Aspect Ratio  
+  - Taper Ratio  
+  - Additional aerodynamic factors
+
+- **Graphical Output:** Generate and display relevant graphs based on inputs
+
+## 🔧 Installation
+
+```bash
+git clone https://github.com/Dars-git/Aircraft-Design-Evaluation-System.git
+cd Aircraft-Design-Evaluation-System
+pip install -r requirements.txt
+python app.py
